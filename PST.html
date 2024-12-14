@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PST Time Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #time {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Current Time in PST</h1>
+        <p id="time">Loading...</p>
+    </div>
+
+    <script>
+        function updateTime() {
+            // Create a new Date object and adjust it to PST
+            const now = new Date();
+            const pstOffset = -8; // PST is UTC-8
+            const utc = now.getTime() + now.getTimezoneOffset() * 60000; 
+            const pstDate = new Date(utc + pstOffset * 3600000);
+
+            // Format the time in 12-hour format with AM/PM
+            const hours = pstDate.getHours() % 12 || 12; // Adjust for 12-hour clock
+            const minutes = pstDate.getMinutes().toString().padStart(2, '0');
+            const seconds = pstDate.getSeconds().toString().padStart(2, '0');
+            const ampm = pstDate.getHours() >= 12 ? 'PM' : 'AM';
+
+            // Display the time
+            document.getElementById('time').textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
+        }
+
+        // Update time every second
+        setInterval(updateTime, 1000);
+        updateTime(); // Initial call to display time immediately
+    </script>
+</body>
+</html>
